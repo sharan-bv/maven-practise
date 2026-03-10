@@ -1,0 +1,13 @@
+piVersion: v1
+kind: Pod
+metadata:
+  #namespace: demo-k8
+  name: my-nginx
+  labels:
+    app: web
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx
+    ports:
+    - containerPort: 80
