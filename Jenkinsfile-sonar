@@ -53,9 +53,7 @@ pipeline {
             steps { 
                 withSonarQubeEnv("${SONAR_SERVER}") { 
                     sh ''' 
-                    mvn sonar:sonar \ 
-                    -Dsonar.projectKey=hello-maven \
-                    -Dsonar.projectName=hello-maven 
+                    mvn sonar:sonar -Dsonar.projectKey=hello-maven -Dsonar.projectName=hello-maven 
                     ''' 
                 } 
             } 
