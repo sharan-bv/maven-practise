@@ -12,6 +12,22 @@
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
+  <!-- Uncomment and configure to deploy to a repository -->
+  <!--
+  <distributionManagement>
+    <repository>
+      <id>my-repo</id>
+      <name>My Repository</name>
+      <url>http://your-repository-url/repo</url>
+    </repository>
+    <snapshotRepository>
+      <id>my-snapshot-repo</id>
+      <name>My Snapshot Repository</name>
+      <url>http://your-repository-url/snapshot</url>
+    </snapshotRepository>
+  </distributionManagement>
+  -->
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>8</maven.compiler.source>
