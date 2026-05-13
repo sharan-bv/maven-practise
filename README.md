@@ -2,6 +2,25 @@
 Maven builds &amp; associated cicd's integrations
 Maven = Build + Dependency Management + Project Structure
 
+
+What is Maven?
+
+Maven is a build automation and dependency management tool for Java projects.
+
+👉 In simple words:
+Maven helps you build your application and manage libraries automatically.
+
+🤔 Why Do We Need Maven?
+
+Before Maven, developers faced problems like:
+
+❌ Without Maven
+Manually downloading .jar files
+Managing dependencies by hand
+Version conflicts (library hell 😅)
+Different builds on different machines
+Complex compile commands
+
 maven-repo
  ├── pom.xml
  └── src
