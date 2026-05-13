@@ -1,0 +1,4 @@
+Dockerfile
+Jenkinsfile
+Jenkinsfile-*
+k8s-manifest/*
