@@ -62,14 +62,17 @@ pipeline {
                 sh 'docker images | grep Hi-Java-maven'
             }
         }
-
-    post {
+        stage ('Pipeline Success status'){
+            post {
         success {
             echo "✅ Pipeline SUCCESS: Build #${BUILD_NUMBER}"
         }
         failure {
             echo "❌ Pipeline FAILED: Check logs"
         }
+            }
+        }   
+    
         cleanup {
             cleanWs()
         }
