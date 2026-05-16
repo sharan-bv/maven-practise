@@ -20,7 +20,7 @@ pipeline {
             }
         }
 
-        stage('check-Maven-Build') {
+        stage('Check Maven Build') {
             steps {
                 sh 'mvn clean compile'
             }
@@ -30,6 +30,7 @@ pipeline {
             steps {
                 sh 'mvn test'
             }
+
             post {
                 always {
                     junit 'target/surefire-reports/*.xml'
@@ -41,6 +42,7 @@ pipeline {
             steps {
                 sh 'mvn package'
             }
+
             post {
                 success {
                     archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
@@ -50,30 +52,31 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh '''
-                  docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
-                  docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
-                '''
+                sh """
+                    docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                    docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
+                """
             }
         }
 
         stage('Docker Image Verify') {
             steps {
-                sh 'docker images | grep Hi-Java-maven'
+                sh 'docker images | grep maven-docker-image'
             }
         }
-        stage ('Pipeline Success status'){
-            post {
+    }
+
+    post {
+
         success {
             echo "✅ Pipeline SUCCESS: Build #${BUILD_NUMBER}"
         }
+
         failure {
             echo "❌ Pipeline FAILED: Check logs"
         }
-            }
-        }   
-    
-        cleanup {
+
+        always {
             cleanWs()
         }
     }
