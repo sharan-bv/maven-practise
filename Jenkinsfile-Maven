@@ -7,8 +7,8 @@ pipeline {
     }
 
     environment {
-        APP_NAME = "Hi-Java-maven"
-        DOCKER_IMAGE = "maven-docker-image"
+        APP_NAME = "Maven-Java"
+        DOCKER_IMAGE = "docker-image-maven-with-java"
         DOCKER_TAG = "${BUILD_NUMBER}"
         CONTAINER_NAME = "maven123-java456"
     }
