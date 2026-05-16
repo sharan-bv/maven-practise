@@ -61,7 +61,7 @@ pipeline {
             steps {
                 sh 'docker images | grep Hi-Java-maven'
             }
-    }
+        }
 
     post {
         success {
