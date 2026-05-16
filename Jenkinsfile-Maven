@@ -10,6 +10,7 @@ pipeline {
         APP_NAME = "Hi-Java-maven"
         DOCKER_IMAGE = "maven-docker-image"
         DOCKER_TAG = "${BUILD_NUMBER}"
+        CONTAINER_NAME = "maven123-java456"
     }
 
     stages {
@@ -20,13 +21,19 @@ pipeline {
             }
         }
 
-        stage('Check Maven Build') {
+        stage('Maven Build') {
             steps {
-                sh 'mvn clean compile'
+                sh 'mvn clean package'
+            }
+
+            post {
+                success {
+                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                }
             }
         }
 
-        stage('Test') {
+        stage('Run Test Cases') {
             steps {
                 sh 'mvn test'
             }
@@ -38,19 +45,7 @@ pipeline {
             }
         }
 
-        stage('Package') {
-            steps {
-                sh 'mvn package'
-            }
-
-            post {
-                success {
-                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                }
-            }
-        }
-
-        stage('Docker Build') {
+        stage('Build Docker Image') {
             steps {
                 sh """
                     docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
@@ -59,9 +54,28 @@ pipeline {
             }
         }
 
-        stage('Docker Image Verify') {
+        stage('Verify Docker Image') {
             steps {
-                sh 'docker images | grep maven-docker-image'
+                sh 'docker images'
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                sh """
+                    docker rm -f ${CONTAINER_NAME} || true
+
+                    docker run -d \
+                    --name ${CONTAINER_NAME} \
+                    -p 8080:8080 \
+                    ${DOCKER_IMAGE}:${DOCKER_TAG}
+                """
+            }
+        }
+
+        stage('Verify Running Container') {
+            steps {
+                sh 'docker ps'
             }
         }
     }
@@ -73,7 +87,7 @@ pipeline {
         }
 
         failure {
-            echo "❌ Pipeline FAILED: Check logs"
+            echo "❌ Pipeline FAILED: Check Jenkins Logs"
         }
 
         always {
